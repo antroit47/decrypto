@@ -4,6 +4,7 @@ import steganography
 import support
 import texttransfer
 import vigenere
+import migui
 
 def caesar_test(text, step):
     text01 = caesar.encrypt(text, step)
@@ -63,6 +64,12 @@ def start():
     #cipher = vigenere.encrypt("ATTACKATDAWN", "LEMON")
     #print(vigenere.decrypt(cipher, "LEMON"))
 
+    #gui
+    
+
+    migui.rungui()
+    
     print(":)")
+    
 start()
 
