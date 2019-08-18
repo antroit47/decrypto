@@ -162,6 +162,13 @@ def analski_kowalzsis_text(image, message):
     else:
         print("message does not fit")
 
+def msg_1bit_kowalzsis(image, message):
+    im = Image.open(image)
+    width, height = im.size
+    im.close()
+    return(len(message) <= (width*height*3))
+        
+
 
 def analski_kowalzsis_image(image, image_enc):
     """                     storing img,  secret message

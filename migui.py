@@ -6,33 +6,38 @@ import texttransfer
 import vigenere
 from tkinter import *
 from tkinter import messagebox
+from tkinter import filedialog
+
 
 
 def rungui():
     print("starting gui")
     window = Tk()
-    window.geometry('350x200')
+    window.geometry('600x200')
     window.title("Decrypto")
     init(window)
     window.mainloop()
 
 
 def init(window):      
-    caesar1_btn = Button(window, text="  Caesar - encrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn, caesar_click))
+    caesar1_btn = Button(window, text="  Caesar - encrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, caesar_click))
     caesar1_btn.grid(column=0, row=0)
-    caesarD_btn = Button(window, text="  Caesar - decrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn, caesarD_click))
+    caesarD_btn = Button(window, text="  Caesar - decrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, caesarD_click))
     caesarD_btn.grid(column=1, row=0)
-    vigenere_btn = Button(window, text="Vigenere - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn, vigenere_click))
+    vigenere_btn = Button(window, text="Vigenere - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, vigenere_click))
     vigenere_btn.grid(column=0, row=1)
-    vigenereD_btn = Button(window, text="Vigenere - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn, vigenereD_click))
+    vigenereD_btn = Button(window, text="Vigenere - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, vigenereD_click))
     vigenereD_btn.grid(column=1, row=1)
+    steg1bitenc_btn = Button(window, text="Steg 1bit - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitenc_click))
+    steg1bitenc_btn.grid(column=0, row=2)
 
 
-def new_window(window, button, btn2, btn3, btn4, function):
+def new_window(window, button, btn2, btn3, btn4,btn5, function):
     button.destroy()
     btn2.destroy()
     btn3.destroy()
     btn4.destroy()
+    btn5.destroy()
     function(window)
 
 
@@ -210,3 +215,62 @@ def exit_caesar_encrypt(window, s1,s2,s3,s4,s5,s6,s7,s8):
     s7.destroy()
     s8.destroy()
     init(window)
+
+
+def steg1bitenc_click(window):
+    lbl = Label(window, text="Select a picture:")
+    lbl.grid(column=0, row=0)
+
+    file_btn = Button(window, text="select", command=lambda: select_file(file_btn))
+    file_btn.grid(column=1, row=0)
+
+    lbl2 = Label(window, text="secret message:")
+    lbl2.grid(column=0, row=1)
+
+    msg_entry = Entry(window,width=30)
+    msg_entry.grid(column=1, row=1)
+
+    result_entry = Label(window, text="")
+    result_entry.grid(column=1, row=2)
+    
+    encrypt_btn = Button(window, text="encrypt", command=lambda: steg1bit_enc(msg_entry.get(), file_btn['text'], result_entry))
+    encrypt_btn.grid(column=0, row=2)
+
+    exit_btn = Button(window, text="exit", command=lambda: exit_caesar_encrypt(window, file_btn,lbl,lbl2,result_entry,msg_entry,encrypt_btn,exit_btn , result_entry))
+    exit_btn.grid(column=0, row=3)
+
+
+def select_file(btn):
+    file = ""
+    file = filedialog.askopenfilename(filetypes = (("png files","*.png"),("jpg files","*.jpg")))
+    if file == "":
+        return
+    btn.config(text = file)    
+
+
+def steg1bit_enc(msg, file, result_entry):
+    if file == "select":
+        result_entry.configure(text= "Operation failed - select a file")
+        return
+    if msg == "":
+        result_entry.configure(text= "Operation failed - type in a message")
+        return
+    if not steganography.msg_1bit_kowalzsis:
+        result_entry.configure(text= "Operation failed - picture does not fit the message")
+        return
+    steganography.steg1bit_encrypt(texttransfer.ascii_to_bits(msg), file)
+    result_entry.configure(text= "encrypted.png was created")
+    #TODO also check for correct bit depth
+    
+
+
+def exit_steg1bit_enc(window, s1,s2,s3,s4,s5,s6,s7,s8):
+    s1.destroy()
+    s2.destroy()
+    s3.destroy()
+    s4.destroy()
+    s5.destroy()
+    s6.destroy()
+    s7.destroy()
+    init(window)
+    
