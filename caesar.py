@@ -25,5 +25,8 @@ def decrypt_smart(text):
     for option in options:
         options[option] = support.islegit(option)
     options = sorted(options.items(), key=lambda kv: kv[1])
-    print(options)
+    #print(options)
     return options
+
+def select_best(options):
+    return options[0][0]

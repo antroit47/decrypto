@@ -42,7 +42,7 @@ def start():
     #stegano_2bit_test(message, "image.png")
 
     #these work
-
+ 
     #1.image is source, second is secret
     #steganography.analski_kowalzsis_image("xsnacksalot.png", "xcat.png")
 
