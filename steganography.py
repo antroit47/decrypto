@@ -165,8 +165,19 @@ def analski_kowalzsis_text(image, message):
 def msg_1bit_kowalzsis(image, message):
     im = Image.open(image)
     width, height = im.size
+    pixels1 = im.getdata()
     im.close()
-    return(len(message) <= (width*height*3))
+
+    BDcount = 0
+    for color in pixels1[0]:
+        BDcount += 1
+    print("Image bit depth:",BDcount,"(",BDcount*8,")")
+    if BDcount != 3:
+        print("Wrong bitdepth - select another image")
+        return False
+    else:
+        print("message length: ", len(message),"; image capacity: ",(width * height * 3))
+        return(len(message) <= (width*height*3))
         
 
 

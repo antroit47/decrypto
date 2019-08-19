@@ -255,9 +255,10 @@ def steg1bit_enc(msg, file, result_entry):
     if msg == "":
         result_entry.configure(text= "Operation failed - type in a message")
         return
-    if not steganography.msg_1bit_kowalzsis:
-        result_entry.configure(text= "Operation failed - picture does not fit the message")
+    if not steganography.msg_1bit_kowalzsis(file, msg):
+        result_entry.configure(text= "Operation failed - picture does not fit the message or has wrong bit depth")
         return
+    
     steganography.steg1bit_encrypt(texttransfer.ascii_to_bits(msg), file)
     result_entry.configure(text= "encrypted.png was created")
     #TODO also check for correct bit depth
