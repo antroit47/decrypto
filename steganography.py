@@ -220,6 +220,36 @@ def analski_kowalzsis_image(image, image_enc):
         print("message does not fit")
 
 
+def image_2bit_kowalzsis(image, message):
+    im = Image.open(image)
+    width1, height1 = im.size
+    pixels1 = im.getdata()
+    im.close()
+    im2 = Image.open(image_enc)
+    width2, height2 = im2.size
+    pixels2 = im2.getdata()
+    im2.close()
+
+    BDcount1 = 0
+    for color in pixels1[0]:
+        BDcount1 += 1
+    print("Store image bit depth:",BDcount1,"(",BDcount1*8,")")
+
+    BDcount2 = 0
+    for color2 in pixels2[0]:
+        BDcount2 += 1
+    print("Secret bit depth:",BDcount2,"(",BDcount2*8,")")
+
+    if BDcount1 != 3 or BDcount2 != 3:
+        print("Wrong bitdepth - select another image")
+        return False
+
+    if width2*height2 > (width1*height1)*6:
+        print("message does not fit into 2 bit steg")
+        return False
+    return True
+        
+
 def steg_encrypt_image(source, secret):
     im = Image.open(secret)
     pixels = im.getdata()

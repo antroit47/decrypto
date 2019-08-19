@@ -20,24 +20,35 @@ def rungui():
 
 
 def init(window):      
-    caesar1_btn = Button(window, text="  Caesar - encrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, caesar_click))
+    caesar1_btn = Button(window, text="  Caesar - encrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, caesar_click))
     caesar1_btn.grid(column=0, row=0)
-    caesarD_btn = Button(window, text="  Caesar - decrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, caesarD_click))
+    caesarD_btn = Button(window, text="  Caesar - decrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, caesarD_click))
     caesarD_btn.grid(column=1, row=0)
-    vigenere_btn = Button(window, text="Vigenere - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, vigenere_click))
+    vigenere_btn = Button(window, text="Vigenere - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, vigenere_click))
     vigenere_btn.grid(column=0, row=1)
-    vigenereD_btn = Button(window, text="Vigenere - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, vigenereD_click))
+    vigenereD_btn = Button(window, text="Vigenere - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, vigenereD_click))
     vigenereD_btn.grid(column=1, row=1)
-    steg1bitenc_btn = Button(window, text="Steg 1bit - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitenc_click))
+    steg1bitenc_btn = Button(window, text="Steg 1bit - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg1bitenc_click))
     steg1bitenc_btn.grid(column=0, row=2)
+    steg1bitdec_btn = Button(window, text="Steg 1bit - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg1bitdec_click))
+    steg1bitdec_btn.grid(column=1, row=2)
+
+    
+    steg_encrypt_image_btn = Button(window, text="Steg image - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_encrypt_image_click))
+    steg_encrypt_image_btn.grid(column=0, row=3)
+    steg_decrypt_image_btn = Button(window, text="Steg image - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_decrypt_image_click))
+    steg_decrypt_image_btn.grid(column=1, row=3)
 
 
-def new_window(window, button, btn2, btn3, btn4,btn5, function):
+def new_window(window, button, btn2, btn3, btn4,btn5, btn6, btn7, btn8, function):
     button.destroy()
     btn2.destroy()
     btn3.destroy()
     btn4.destroy()
     btn5.destroy()
+    btn6.destroy()
+    btn7.destroy()
+    btn8.destroy()
     function(window)
 
 
@@ -236,7 +247,7 @@ def steg1bitenc_click(window):
     encrypt_btn = Button(window, text="encrypt", command=lambda: steg1bit_enc(msg_entry.get(), file_btn['text'], result_entry))
     encrypt_btn.grid(column=0, row=2)
 
-    exit_btn = Button(window, text="exit", command=lambda: exit_caesar_encrypt(window, file_btn,lbl,lbl2,result_entry,msg_entry,encrypt_btn,exit_btn , result_entry))
+    exit_btn = Button(window, text="exit", command=lambda: exit_caesar_encrypt(window, file_btn,lbl,lbl2,result_entry,msg_entry,encrypt_btn,exit_btn,exit_btn)) #exit btn is twice there but it works somehow
     exit_btn.grid(column=0, row=3)
 
 
@@ -261,17 +272,64 @@ def steg1bit_enc(msg, file, result_entry):
     
     steganography.steg1bit_encrypt(texttransfer.ascii_to_bits(msg), file)
     result_entry.configure(text= "encrypted.png was created")
-    #TODO also check for correct bit depth
+
+    
+def steg1bitdec_click(window):
+    lbl = Label(window, text="Select a picture:")
+    lbl.grid(column=0, row=0)
+
+    file_btn = Button(window, text="select", command=lambda: select_file(file_btn))
+    file_btn.grid(column=1, row=0)
+
+
+    lbl2 = Label(window, text="decrypted: ")
+    lbl2.grid(column=0, row=2)
+
+    result_entry = Entry(window,width=40)
+    result_entry.grid(column=1, row=2)
+
+    decrypt_btn = Button(window, text="decrypt", command=lambda: steg1bit_dec(file_btn['text'], result_entry))
+    decrypt_btn.grid(column=0, row=1)
+
+    exit_btn = Button(window, text="exit", command=lambda: exit_steg1bit_dec(window, file_btn,lbl,lbl2,decrypt_btn,exit_btn,result_entry))
+    exit_btn.grid(column=0, row=3)
+
+
+def steg1bit_dec(file, result_entry):
+    if file == "select":
+        result_entry.delete(0,END)
+        result_entry.insert(0,"Operation failed - select a file")
+        return
+
+    result_entry.delete(0,END)
+    result_entry.insert(0,texttransfer.bits_to_ascii(steganography.steg1bit_decrypt(file)))
     
 
-
-def exit_steg1bit_enc(window, s1,s2,s3,s4,s5,s6,s7,s8):
+def exit_steg1bit_dec(window, s1,s2,s3,s4,s5,s6):
     s1.destroy()
     s2.destroy()
     s3.destroy()
     s4.destroy()
     s5.destroy()
     s6.destroy()
-    s7.destroy()
     init(window)
+
+
+def steg_encrypt_image_click(window):
+    lbl = Label(window, text="Select a base picture:")
+    lbl.grid(column=0, row=0)
+
+    file_btn = Button(window, text="select", command=lambda: select_file(file_btn))
+    file_btn.grid(column=1, row=0)
+
+
+    lbl2 = Label(window, text="Select a secret picture:")
+    lbl2.grid(column=0, row=1)
+
+    file_btn2 = Button(window, text="select", command=lambda: select_file(file_btn2))
+    file_btn2.grid(column=1, row=1)
+
+
     
+    
+    #steganography.image_2bit_kowalzsis()
