@@ -20,27 +20,27 @@ def rungui():
 
 
 def init(window):      
-    caesar1_btn = Button(window, text="  Caesar - encrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, caesar_click))
+    caesar1_btn = Button(window, text="  Caesar - encrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, caesar_click))
     caesar1_btn.grid(column=0, row=0)
-    caesarD_btn = Button(window, text="  Caesar - decrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, caesarD_click))
+    caesarD_btn = Button(window, text="  Caesar - decrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, caesarD_click))
     caesarD_btn.grid(column=1, row=0)
-    vigenere_btn = Button(window, text="Vigenere - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, vigenere_click))
+    vigenere_btn = Button(window, text="Vigenere - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, vigenere_click))
     vigenere_btn.grid(column=0, row=1)
-    vigenereD_btn = Button(window, text="Vigenere - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, vigenereD_click))
+    vigenereD_btn = Button(window, text="Vigenere - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, vigenereD_click))
     vigenereD_btn.grid(column=1, row=1)
-    steg1bitenc_btn = Button(window, text="Steg 1bit - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg1bitenc_click))
+    steg1bitenc_btn = Button(window, text="Steg 1bit - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, steg1bitenc_click))
     steg1bitenc_btn.grid(column=0, row=2)
-    steg1bitdec_btn = Button(window, text="Steg 1bit - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg1bitdec_click))
+    steg1bitdec_btn = Button(window, text="Steg 1bit - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, steg1bitdec_click))
     steg1bitdec_btn.grid(column=1, row=2)
-
-    
-    steg_encrypt_image_btn = Button(window, text="Steg img - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_encrypt_image_click))
+    steg_encrypt_image_btn = Button(window, text="Steg img - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, steg_encrypt_image_click))
     steg_encrypt_image_btn.grid(column=0, row=3)
-    steg_decrypt_image_btn = Button(window, text="Steg img - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_decrypt_image_click))
+    steg_decrypt_image_btn = Button(window, text="Steg img - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, steg_decrypt_image_click))
     steg_decrypt_image_btn.grid(column=1, row=3)
+    exit_btn = Button(window, text="             exit             ", command=window.destroy)
+    exit_btn.grid(column=0, row=4)
 
 
-def new_window(window, button, btn2, btn3, btn4,btn5, btn6, btn7, btn8, function):
+def new_window(window, button, btn2, btn3, btn4,btn5, btn6, btn7, btn8, btn9, function):
     button.destroy()
     btn2.destroy()
     btn3.destroy()
@@ -49,6 +49,7 @@ def new_window(window, button, btn2, btn3, btn4,btn5, btn6, btn7, btn8, function
     btn6.destroy()
     btn7.destroy()
     btn8.destroy()
+    btn9.destroy()
     function(window)
 
 
