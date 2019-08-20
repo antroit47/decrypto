@@ -329,7 +329,29 @@ def steg_encrypt_image_click(window):
     file_btn2 = Button(window, text="select", command=lambda: select_file(file_btn2))
     file_btn2.grid(column=1, row=1)
 
-
+    result_entry = Label(window, text="")
+    result_entry.grid(column=1, row=2)
     
+    encrypt_btn = Button(window, text="encrypt", command=lambda: steg_encrypt_image(file_btn['text'], file_btn2['text'], result_entry))
+    encrypt_btn.grid(column=0, row=2)
+
+    exit_btn = Button(window, text="exit", command=lambda: exit_caesar_encrypt(window, file_btn,lbl,lbl2,result_entry,file_btn2,encrypt_btn,exit_btn, exit_btn)) #exit btn is twice there but it works somehow
+    exit_btn.grid(column=0, row=3)
+
+
+def steg_encrypt_image(basef, secretf, result_entry):
+    if basef == "select":
+        result_entry.configure(text= "Operation failed - select a base file")
+        return
+    if secretf == "select":
+        result_entry.configure(text= "Operation failed - select a secret file")
+        return
+    
+    if not steganography.image_2bit_kowalzsis(basef, secretf):
+        result_entry.configure(text= "Operation failed - wrong bit depth or message does not fit")
+        return
+    
+    steganography.steg_encrypt_image(basef, secretf)
+    result_entry.configure(text= "encrypted.png was created")
     
     #steganography.image_2bit_kowalzsis()
