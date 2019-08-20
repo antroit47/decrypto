@@ -155,9 +155,9 @@ def analski_kowalzsis_text(image, message):
     print("1 bit steg: ", (width * height * 3))
     print("2 bit steg: ", (width * height * 3)*2)
     print("message length: ", len(message))
-    if len(message) <= (width*height*3):
+    if len(message*7) <= (width*height*3):
         print("message fits into 1 bit steg")
-    if len(message) <= (width*height*3)*2:
+    if len(message*4) <= (width*height*3)*2:
         print("message fits into 2 bit steg")
     else:
         print("message does not fit")
@@ -177,7 +177,7 @@ def msg_1bit_kowalzsis(image, message):
         return False
     else:
         print("message length: ", len(message),"; image capacity: ",(width * height * 3))
-        return(len(message) <= (width*height*3))
+        return(len(message*7) <= (width*height*3))
         
 
 
@@ -239,16 +239,36 @@ def image_2bit_kowalzsis(image, image_enc):
     for color2 in pixels2[0]:
         BDcount2 += 1
     print("Secret bit depth:",BDcount2,"(",BDcount2*8,")")
-
-    if BDcount1 != 3 or BDcount2 != 3:
+                     #
+    if BDcount1 != 3 or BDcount2 != 3:  #removing this will produce strange pictures
         print("Wrong bitdepth - select another image")
         return False
 
     if width2*height2*8 > (width1*height1)*6:
         print("message does not fit into 2 bit steg")
         return False
+    print("secret image resolution:  ", width2, " x ", height2)
     return True
-        
+
+def image_inimage_kowalzsis(image, resolution):
+    im = Image.open(image)
+    width1, height1 = im.size
+    pixels1 = im.getdata()
+    im.close()
+
+    BDcount1 = 0
+    for color in pixels1[0]:
+        BDcount1 += 1
+    print("Base image bit depth:",BDcount1,"(",BDcount1*8,")")
+
+    if BDcount1 != 3:
+        print("Wrong bitdepth - select another image")
+        return False
+
+    if resolution*8 > (width1*height1)*6:
+        print("message does not fit into 2 bit steg")
+        return False
+    return True        
 
 def steg_encrypt_image(source, secret):
     im = Image.open(secret)
@@ -283,7 +303,7 @@ def steg_decrypt_image(image, x, y, BDsecret): #size of secret picture, bit dept
     newpixels = []
     message_pointer = 0
 
-    print("pocet pixelu zpravy ", len(message)//3)
+    #print("pocet pixelu zpravy ", len(message)//3)
     for i in range(x*y):
         newcolors = []
         for _ in range(BDsecret//8):
@@ -295,13 +315,13 @@ def steg_decrypt_image(image, x, y, BDsecret): #size of secret picture, bit dept
 
     newtuple = tuple([0] * (BDsecret//8))
     if (BDsecret//8) == 3:
-        print("secret is rgb")
+        #print("secret is rgb")
         final_image = Image.new("RGB", (x, y), newtuple)
     elif (BDsecret // 8) == 4:
-        print("secret is cmyk")
+        #print("secret is cmyk")
         final_image = Image.new("RGBA", (x, y), newtuple)
     else:
-        print("INVALID BIT DEPTH, CHOSE 24/32")
+        #print("INVALID BIT DEPTH, CHOSE 24/32")
         return
 
     final_image.putdata(newpixels)

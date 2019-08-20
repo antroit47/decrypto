@@ -34,9 +34,9 @@ def init(window):
     steg1bitdec_btn.grid(column=1, row=2)
 
     
-    steg_encrypt_image_btn = Button(window, text="Steg image - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_encrypt_image_click))
+    steg_encrypt_image_btn = Button(window, text="Steg img - encrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_encrypt_image_click))
     steg_encrypt_image_btn.grid(column=0, row=3)
-    steg_decrypt_image_btn = Button(window, text="Steg image - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_decrypt_image_click))
+    steg_decrypt_image_btn = Button(window, text="Steg img - decrypt", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn, steg_decrypt_image_click))
     steg_decrypt_image_btn.grid(column=1, row=3)
 
 
@@ -354,4 +354,67 @@ def steg_encrypt_image(basef, secretf, result_entry):
     steganography.steg_encrypt_image(basef, secretf)
     result_entry.configure(text= "encrypted.png was created")
     
-    #steganography.image_2bit_kowalzsis()
+    
+
+def steg_decrypt_image_click(window):
+    lbl = Label(window, text="Select a picture:")
+    lbl.grid(column=0, row=0)
+
+    file_btn = Button(window, text="select", command=lambda: select_file(file_btn))
+    file_btn.grid(column=1, row=0)
+
+    lbl2 = Label(window, text="secret dimensions:")
+    lbl2.grid(column=0, row=1)
+
+    msg_entry = Entry(window,width=10)
+    msg_entry.grid(column=1, row=1)
+
+    lbl3 = Label(window, text="x")
+    lbl3.grid(column=2, row=1)
+
+    msg_entry2 = Entry(window,width=10)
+    msg_entry2.grid(column=3, row=1)
+
+    result_entry = Label(window, text="")
+    result_entry.grid(column=1, row=2)
+    
+    encrypt_btn = Button(window, text="derypt", command=lambda: steg_decrypt_image(file_btn['text'],msg_entry.get(),msg_entry2.get(), result_entry))
+    encrypt_btn.grid(column=0, row=2)
+
+    exit_btn = Button(window, text="exit", command=lambda: exit_image_decrypt(window, file_btn,lbl,lbl2,lbl3,result_entry,msg_entry, msg_entry2, encrypt_btn,exit_btn)) 
+    exit_btn.grid(column=0, row=3)
+
+
+def exit_image_decrypt(window, s1,s2,s3,s4,s5,s6,s7,s8, s9):
+    s1.destroy()
+    s2.destroy()
+    s3.destroy()
+    s4.destroy()
+    s5.destroy()
+    s6.destroy()
+    s7.destroy()
+    s8.destroy()
+    s9.destroy()
+    init(window)
+
+def steg_decrypt_image(file, x, y, result_entry):
+    if file == "select":
+        result_entry.configure(text= "Operation failed - select a file")
+        return
+
+    if x == "" or y == "":
+        result_entry.configure(text= "Operation failed - type in a resolution")
+        return
+    if  (not x.isdigit()) or (not y.isdigit()):
+        result_entry.configure(text= "Operation failed - resolution has to be number")
+        return
+    
+    if not steganography.image_inimage_kowalzsis(file, int(x)*int(y)):
+        result_entry.configure(text= "Operation failed - wrong bit depth or wrong resolution")
+        return
+    
+    steganography.steg_decrypt_image(file, int(x), int(y), 24)
+    result_entry.configure(text= "secret_image.png was created")
+
+  
+
