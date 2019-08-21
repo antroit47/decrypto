@@ -364,6 +364,23 @@ def same_images_test(img1, img2):   #images have to be the same size
     print("SAME")
 
 
+def each_color_check(image):
+    im = Image.open(image)
+    pixels = im.getdata()
+    width, height = im.size
+    im.close()
+
+
+    newpixels = pixels
+    final_image = Image.new("RGB", (width, height), (0, 0, 0))
+    final_image.putdata(newpixels)
+    final_image.save("NEW.png")
+    final_image.close()
+
+
+
+
+
 # TODO XXXXXXXXXXXXXXXXXX
 def stegano_last1bit(original, encrypted):
     """

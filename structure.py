@@ -65,12 +65,9 @@ def start():
     #print(vigenere.decrypt(cipher, "LEMON"))
  
     #gui
-    
+    #migui.rungui()
 
-    migui.rungui()
-    #C:\Users\V_U\Desktop\MI\gitprojects\decrypto\image.png
-    #steganography.steg1bit_encrypt("XX", "C:/Users/V_U/Desktop/MI/gitprojects/decrypto/image.png")
-
+    steganography.each_color_check("image.png")
     
     print(":)")
     
