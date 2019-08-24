@@ -1,5 +1,6 @@
 import support
 from PIL import Image
+import os
 
 
 def steg1bit_encrypt(message, image_name):
@@ -364,18 +365,67 @@ def same_images_test(img1, img2):   #images have to be the same size
     print("SAME")
 
 
-def each_color_check(image):
-    im = Image.open(image)
+def createFolder(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print('Error: Creating directory. ' + directory)
+
+
+def each_color_check_blacknwhite(image):
+    im = Image.open(image).convert('LA')
     pixels = im.getdata()
     width, height = im.size
     im.close()
 
 
-    newpixels = pixels
-    final_image = Image.new("RGB", (width, height), (0, 0, 0))
-    final_image.putdata(newpixels)
-    final_image.save("NEW.png")
-    final_image.close()
+    createFolder("blacknwhite_color_check")
+    individual_colors = []
+    i = 0
+    for j in range(256):
+        i += 1
+        newtitle = "blacknwhite_color_check\\newimage" + str(i) + ".png"
+        newpixels = []
+        for px in pixels:
+            if px[0] == j:
+                newpixels.append((255, 255, 255))
+            else:
+                newpixels.append((0, 0, 0))
+        final_image = Image.new("RGB", (width, height), (0, 0, 0))
+        final_image.putdata(newpixels)
+        final_image.save(newtitle)
+        final_image.close()
+        print("picture: ", i, " was created")
+        #break #TODO remove
+    print("Done")
+
+
+
+
+    """
+    createFolder("each_color_check")
+    individual_colors = []
+    i = 0
+    for pixel in pixels:
+        if pixel not in individual_colors:
+            individual_colors.append(pixel)
+            i += 1
+            newtitle = "each_color_check\\newimage" + str(i) + ".png"
+            newpixels = []
+            for px in pixels:
+                if px == pixel:
+                    newpixels.append((255, 255, 255))
+                else:
+                    newpixels.append((0, 0, 0))
+            final_image = Image.new("RGB", (width, height), (0, 0, 0))
+            final_image.putdata(newpixels)
+            final_image.save(newtitle)
+            final_image.close()
+            print("picture: ", i, " was created")
+        #break #TODO remove
+    print("Done")
+    """
 
 
 

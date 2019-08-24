@@ -67,8 +67,8 @@ def start():
     #gui
     #migui.rungui()
 
-    steganography.each_color_check("image.png")
-    
+    steganography.each_color_check_blacknwhite("xsnacksalot.png")
+
     print(":)")
     
 start()
