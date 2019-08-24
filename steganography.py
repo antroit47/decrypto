@@ -381,7 +381,6 @@ def each_color_check_blacknwhite(image):
 
 
     createFolder("blacknwhite_color_check")
-    individual_colors = []
     i = 0
     for j in range(256):
         i += 1
@@ -397,9 +396,7 @@ def each_color_check_blacknwhite(image):
         final_image.save(newtitle)
         final_image.close()
         print("picture: ", i, " was created")
-        #break #TODO remove
     print("Done")
-
 
 
 
