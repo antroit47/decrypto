@@ -379,7 +379,6 @@ def each_color_check_blacknwhite(image):
     width, height = im.size
     im.close()
 
-
     createFolder("blacknwhite_color_check")
     i = 0
     for j in range(256):
@@ -399,41 +398,39 @@ def each_color_check_blacknwhite(image):
     print("Done")
 
 
-
-    """
+def top_pixels_color_check(image, amount_of_imgs):
+    im = Image.open(image)
+    pixels = im.getdata()
+    width, height = im.size
+    im.close()
     createFolder("each_color_check")
-    individual_colors = []
-    i = 0
+    individual_colors = {}
     for pixel in pixels:
         if pixel not in individual_colors:
-            individual_colors.append(pixel)
-            i += 1
-            newtitle = "each_color_check\\newimage" + str(i) + ".png"
-            newpixels = []
-            for px in pixels:
-                if px == pixel:
-                    newpixels.append((255, 255, 255))
-                else:
-                    newpixels.append((0, 0, 0))
-            final_image = Image.new("RGB", (width, height), (0, 0, 0))
-            final_image.putdata(newpixels)
-            final_image.save(newtitle)
-            final_image.close()
-            print("picture: ", i, " was created")
-        #break #TODO remove
-    print("Done")
+            individual_colors[pixel] = 0
+        else:
+            individual_colors[pixel] += 1
+    individual_colors = sorted(individual_colors.items(), key=lambda kv: kv[1])[::-1]
+    i = 0
+    for entry in individual_colors[:amount_of_imgs]:
+        i += 1
+        newtitle = "each_color_check\\newimage" + str(i) + ".png"
+        newpixels = []
+        for px in pixels:
+            if px == entry[0]:
+                newpixels.append((255, 255, 255))
+            else:
+                newpixels.append((0, 0, 0))
+        final_image = Image.new("RGB", (width, height), (0, 0, 0))
+        final_image.putdata(newpixels)
+        final_image.save(newtitle)
+        final_image.close()
+        print("picture: ", i, " was created")
+
+
+def stegano_last1bit_diff(original, encrypted):
     """
-
-
-
-
-
-# TODO XXXXXXXXXXXXXXXXXX
-def stegano_last1bit(original, encrypted):
-    """
-    TODO XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    not really working function to visualize the difference in pictures -
-    could be better with 2 bits
+    function to visualize the difference in 2 pictures
 
     :param original:
     :param encrypted:
@@ -444,40 +441,29 @@ def stegano_last1bit(original, encrypted):
     width, height = im.size
     im.close()
 
-    new_o_pixels = find_last_bit_map(o_pixels)
+    im2 = Image.open(encrypted)
+    e_pixels = im2.getdata()
+    width2, height2 = im2.size
+    im2.close()
 
-    o_final_image = Image.new("RGB", (width, height), (0, 0, 0))
-    o_final_image.putdata(new_o_pixels)
-    o_final_image.save("lastbit_orig.png")
-    o_final_image.close()
+    if (width != width2) or (height != height2):
+        print("Images have different resolutions. Aborting")
+        return
 
-    im = Image.open(encrypted)
-    e_pixels = im.getdata()
-    im.close()
+    new_pixels = []
+    diff_counter = 0
+    for o_pix, e_pix in zip(o_pixels, e_pixels):
+        if o_pix == e_pix:
+            new_pixels.append((0, 0, 0))
+        else:
+            new_pixels.append((255, 255, 255))
+            diff_counter += 1
 
-    new_e_pixels = find_last_bit_map(e_pixels)
 
     e_final_image = Image.new("RGB", (width, height), (0, 0, 0))
-    e_final_image.putdata(new_e_pixels)
-    e_final_image.save("lastbit_encrypted.png")
+    e_final_image.putdata(new_pixels)
+    e_final_image.save("diff_last_1bit.png")
     e_final_image.close()
-
-
-# TODO XXXXXXXXXXXXXXXXXXXXXXXXX
-def find_last_bit_map(pixels):
-    """
-    TODO incomplete kinda / no purpose for 1 bit encrypt / 2 bit maybe?
-    :param pixels:
-    :return:
-    """
-    new_o_pixels = []
-    for pixel in pixels:
-        newcolor = []
-        for color in pixel:
-            if support.get_lastbit(color) == "1":
-                newcolor.append(255)
-            else:
-                newcolor.append(0)
-        newcolor = tuple(newcolor)
-        new_o_pixels.append(newcolor)
-    return new_o_pixels
+    print("spotted differences: ", diff_counter)
+    total = width*height
+    print(" Difference in pictures: ", diff_counter*100/(width*height),"%")

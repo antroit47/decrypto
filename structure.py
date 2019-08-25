@@ -67,7 +67,10 @@ def start():
     #gui
     #migui.rungui()
 
-    steganography.each_color_check_blacknwhite("xsnacksalot.png")
+    #steganography.each_color_check_blacknwhite("xsnacksalot.png")
+    #steganography.top_pixels_color_check("xsnacksalot.png", 20)
+
+    steganography.stegano_last1bit_diff("image2.png", "encrypted.png")
 
     print(":)")
     
