@@ -467,3 +467,46 @@ def stegano_last1bit_diff(original, encrypted):
     print("spotted differences: ", diff_counter)
     total = width*height
     print(" Difference in pictures: ", diff_counter*100/(width*height),"%")
+
+
+
+def stegano_last1bit_diff_EXP(original, encrypted):
+    """
+    function to visualize the difference in 2 pictures
+
+    :param original:
+    :param encrypted:
+    :return:
+    """
+    im = Image.open(original)
+    o_pixels = im.getdata()
+    width, height = im.size
+    im.close()
+
+    im2 = Image.open(encrypted)
+    e_pixels = im2.getdata()
+    width2, height2 = im2.size
+    im2.close()
+
+    if (width != width2) or (height != height2):
+        print("Images have different resolutions. Aborting")
+        return
+
+    new_pixels = []
+    diff_counter = 0
+    for o_pix, e_pix in zip(o_pixels, e_pixels):
+        if o_pix == e_pix:
+            new_pixels.append((0, 0, 0))
+        else:
+
+            new_pixels.append((abs(o_pix[0]-e_pix[0]), abs(o_pix[1]-e_pix[1]), abs(o_pix[2]-e_pix[2])))
+            diff_counter += 1
+
+
+    e_final_image = Image.new("RGB", (width, height), (0, 0, 0))
+    e_final_image.putdata(new_pixels)
+    e_final_image.save("diff_last_1bit.png")
+    e_final_image.close()
+    print("spotted differences: ", diff_counter)
+    total = width*height
+    print(" Difference in pictures: ", diff_counter*100/(width*height),"%")
