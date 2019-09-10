@@ -9,8 +9,13 @@ from tkinter import messagebox
 from tkinter import filedialog
 
 
-
 def rungui():
+    """
+    default function to run the gui
+    All the other functions here basically control the GUI and call functions
+    from the rest of the code
+    :return: nothing
+    """
     print("starting gui")
     window = Tk()
     window.geometry('600x200')
@@ -19,7 +24,7 @@ def rungui():
     window.mainloop()
 
 
-def init(window):      
+def init(window):
     caesar1_btn = Button(window, text="  Caesar - encrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, caesar_click))
     caesar1_btn.grid(column=0, row=0)
     caesarD_btn = Button(window, text="  Caesar - decrypt  ", command=lambda: new_window(window,caesar1_btn, caesarD_btn, vigenere_btn, vigenereD_btn,steg1bitenc_btn, steg1bitdec_btn,steg_encrypt_image_btn,steg_decrypt_image_btn,exit_btn, caesarD_click))

@@ -1,8 +1,14 @@
 import support
 
 def encrypt(text, key):
+    """
+    Function that encrypts text with a key using vigeneres cipher
+    :param text: any ascii alphanumerical text
+    :param key: Key, has to be alphabetical - will fail otherwise
+    :return: encoded message
+    """
     forbidden = [" ", ",", ".", "!", "?", ":", "/", "1", "2", "3", "4", "5",
-                    "6", "7", "8", "9", "0"]
+                 "6", "7", "8", "9", "0"]
     final = ""
     key = key.lower()
     if len(key) == 0:
@@ -27,7 +33,14 @@ def encrypt(text, key):
     #print(final)
     return final
 
+
 def decrypt(text, key):
+    """
+    Function that decrypts text with a known key using vigeneres cipher
+    :param text: any ascii alphanumerical text
+    :param key: Key, has to be alphabetical - will fail otherwise
+    :return: decoded message
+    """
     forbidden = [" ", ",", ".", "!", "?", ":", "/", "1", "2", "3", "4", "5",
                     "6", "7", "8", "9", "0"]
     key = key.lower()
@@ -57,11 +70,17 @@ def decrypt(text, key):
     return final
 
 
-
-
 # TODO 2 moznosti - 1) projit třeba sestimistna hesla, zacit AAAA a menit
 # prvni pismena (pokud bude klic kratky tak je to blby) / nebo delat od A po AA po AAA - tohle bude opakovat vicekrat ABAB treba
 def decrypt_smart(text, key_len):
+    """
+    decrypts vigeneres cypher by guessing keys and finding most-likely-to-be-a-language
+    text based on vowel-count.
+    :param text: encrypted
+    :param key_len: length of key to be guessed - must be < 5 - more than that
+    would take a lot of time
+    :return: returns first 15 most likely to be real texts based on vowel count
+    """
     options = {}
     keys = 'abcdefghijklmnopqrstuvwxyz'
     count = 0
