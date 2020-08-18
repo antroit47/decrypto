@@ -9,7 +9,7 @@ Library: Use decrypt_smart in caesar.py for bruteforce attack. Returns an array 
 Library: For a bruteforce atack use decrypt_smart in vigenere.py, length of the key must be provided. Returns an array of possible results sorted by *their vowels and consonants value*.
 
 # Steganography
-GUI: Only able to hide into 1 least signifficant bit of an image. *Steg 1bit* works hides strings into images, *Steg img* hides images within images. 
+GUI: Only able to hide into 1 least signifficant bit of an image. *Steg 1bit* hides strings into images, *Steg img* hides images within images. 
 
 Library (steganography.py): Also has 2 least signifficant bits hiding.
 
