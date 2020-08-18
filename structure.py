@@ -58,7 +58,7 @@ def start():
     #print(vigenere.decrypt(cipher, "LEMON"))
  
     #gui
-    #migui.rungui()
+    migui.rungui()
 
     #steganography.each_color_check_blacknwhite("xsnacksalot.png")
     #steganography.top_pixels_color_check("xsnacksalot.png", 20)
@@ -80,9 +80,9 @@ def start():
 
     #vigenere.decrypt_smart("lkhegqf prkfw iwiw fa recajankrw oebnw ijwi zkleye gkygw", 4)
 
-    print(support.numbertobinary(123))
+    #print(support.numbertobinary(123))
 
-    print(":)")
+    #print(":)")
 
 
 start()
